@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to iPlusOne</title>
+    <link rel="stylesheet" href="../styles/onboarding.css">
+</head>
+<body>
+    <div class="onboarding-container">
+        <div class="step" id="step1">
+            <div class="logo"></div>
+            <h1>什么是 iPlusOne？</h1>
+            <div class="theory-content">
+                <p>iPlusOne 是一款基于 <strong>可理解性输入理论（Comprehensible Input）</strong> 的英语学习工具，旨在帮助您通过阅读网页内容，轻松提升英语水平。</p>
+                <p>我们的核心理念是：<strong>学习一门语言的最佳方式，是通过大量接触略高于您当前水平的输入（i+1）。</strong></p>
+                <p class="highlight">i 代表您当前的语言水平。</p>
+                <p class="highlight">+1 代表略高于您水平的挑战性内容。</p>
+                <p>通过这种方式，您可以在理解大部分内容的同时，自然地学习新词汇和表达方式，从而实现语言能力的稳步提升。</p>
+                <div class="theory-points">
+                    <div class="point">
+                        <h3>📚 科学有效</h3>
+                        <p>已被语言学研究证实的有效学习方法。95%的内容可以理解，5%是新知识，这是最理想的学习配比。</p>
+                    </div>
+                    <div class="point">
+                        <h3>🧠 个性化学习</h3>
+                        <p>根据您的英语水平，动态调整内容难度，确保每次学习都在您的"舒适区边缘"。</p>
+                    </div>
+                    <div class="point">
+                        <h3>🔗 无缝集成</h3>
+                        <p>直接在您浏览的网页中标记单词难度，提供即时释义和例句，让学习融入日常生活。</p>
+                    </div>
+                    <div class="point">
+                        <h3>🔍 数据驱动</h3>
+                        <p>记录您的学习进度和词汇量增长，帮助您清晰了解自己的进步。</p>
+                    </div>
+                </div>
+            </div>
+            <button class="next-btn">开始使用 →</button>
+        </div>
+
+        <div class="step hidden" id="step2">
+            <h2>选择你的英语水平</h2>
+            <p class="level-intro">为了为您提供最佳的学习体验，我们需要了解您的当前英语水平。</p>
+            <h3 class="level-subtitle">为什么要选择英语水平？</h3>
+            <p class="level-desc-text">我们会根据您的水平，标记网页中适合您学习的单词（i+1），确保您既能理解内容，又能学到新知识。</p>
+            <div class="level-selector">
+                <div class="level-option" data-level="A1">
+                    <span class="level-tag">A1</span>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3>入门级</h3>
+                            <span class="vocab-size">掌握基础词汇</span>
+                        </div>
+                        <p class="level-desc">能看懂简单的英文标识和短句</p>
+                    </div>
+                </div>
+                <div class="level-option" data-level="A2">
+                    <span class="level-tag">A2</span>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3>基础级</h3>
+                            <span class="vocab-size">掌握常用词汇</span>
+                        </div>
+                        <p class="level-desc">能进行简单的日常对话</p>
+                    </div>
+                </div>
+                <div class="level-option" data-level="B1">
+                    <span class="level-tag">B1</span>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3>中级</h3>
+                            <span class="vocab-size">掌握日常词汇</span>
+                        </div>
+                        <p class="level-desc">能理解日常话题的文章</p>
+                    </div>
+                </div>
+                <div class="level-option" data-level="B2">
+                    <span class="level-tag">B2</span>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3>中高级</h3>
+                            <span class="vocab-size">掌握复杂词汇</span>
+                        </div>
+                        <p class="level-desc">能理解较复杂的文章和讨论</p>
+                    </div>
+                </div>
+                <div class="level-option" data-level="C1">
+                    <span class="level-tag">C1</span>
+                    <div class="level-content">
+                        <div class="level-header">
+                            <h3>高级</h3>
+                            <span class="vocab-size">掌握专业词汇</span>
+                        </div>
+                        <p class="level-desc">能理解专业文献和深度文章</p>
+                    </div>
+                </div>
+            </div>
+            <button class="next-btn" disabled>开始阅读之旅 →</button>
+        </div>
+    </div>
+    <script src="../scripts/onboarding.js"></script>
+</body>
+</html> 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>单词库 - iPlusOne</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/vocabulary.css">
+    <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+    <div class="container">
+        <div id="sidebar-container" class="extension-sidebar"></div>
+        <main class="main-content">
+            <div class="vocabulary-content">
+                <h1>单词库</h1>
+                <div class="vocabulary-actions">
+                    <button id="clearKnownWords" class="danger-btn">
+                        <span class="btn-icon">🗑️</span>
+                        清空已掌握单词
+                    </button>
+                </div>
+
+                <div class="vocabulary-tabs">
+                    <button class="tab-btn active" data-tab="learning">
+                        <span class="tab-icon">📚</span>
+                        学习中
+                        <span class="word-count" id="learningCount">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="mastered">
+                        <span class="tab-icon">✅</span>
+                        已掌握
+                        <span class="word-count" id="masteredCount">0</span>
+                    </button>
+                </div>
+
+                <div class="vocabulary-list" id="learningList">
+                    <!-- 学习中的单词将通过 JS 动态添加 -->
+                </div>
+
+                <div class="vocabulary-list hidden" id="masteredList">
+                    <!-- 已掌握的单词将通过 JS 动态添加 -->
+                </div>
+
+                <div class="empty-state hidden" id="emptyState">
+                    <div class="empty-icon">📝</div>
+                    <p>还没有单词呢，快去阅读文章添加单词吧！</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../scripts/loadSidebar.js"></script>
+    <script src="../scripts/vocabulary.js"></script>
+</body>
+</html> 

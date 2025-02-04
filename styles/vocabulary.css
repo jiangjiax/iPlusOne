@@ -1,0 +1,238 @@
+.vocabulary-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 32px;
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.vocabulary-content h1 {
+    color: #1976D2;
+    font-size: 32px;
+    margin-bottom: 24px;
+    font-weight: 600;
+}
+
+.vocabulary-actions {
+    display: flex;
+    margin-bottom: 24px;
+}
+
+.danger-btn {
+    background: #DC2626;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.danger-btn:hover {
+    background: #B91C1C;
+}
+
+.vocabulary-tabs {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 16px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.tab-btn.active {
+    color: #1976D2;
+    font-weight: 500;
+}
+
+.vocabulary-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.word-card {
+    background: #F8F9FA;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.word-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.word-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+    margin-bottom: 8px;
+}
+
+.word-translation {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 12px;
+}
+
+.word-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.word-btn {
+    flex: 1;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-master {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-master:hover {
+    background: #388E3C;
+}
+
+.btn-learning {
+    background: #FFC107;
+    color: black;
+}
+
+.btn-learning:hover {
+    background: #FFA000;
+}
+
+.btn-remove {
+    background: #EF4444;
+    color: white;
+}
+
+.btn-remove:hover {
+    background: #DC2626;
+}
+
+.btn-unknown {
+    background: #9CA3AF;
+    color: white;
+}
+
+.btn-unknown:hover {
+    background: #6B7280;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 48px 0;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+.loading-indicator {
+    text-align: center;
+    padding: 20px;
+    color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.loading-indicator .loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(25, 118, 210, 0.1);
+    border-top-color: #1976D2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background: #1976D2;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.scroll-to-top:hover {
+    background: #1565C0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 优化移动端样式 */
+@media (max-width: 768px) {
+    .scroll-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+}
+
+.word-count {
+    background: rgba(25, 118, 210, 0.1);
+    color: #1976D2;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+.tab-btn.active .word-count {
+    background: rgba(25, 118, 210, 0.2);
+} 

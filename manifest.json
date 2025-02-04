@@ -1,0 +1,35 @@
+{
+    "manifest_version": 3,
+    "name": "iPlusOne",
+    "version": "1.0",
+    "description": "基于可理解性输入理论的英语学习工具",
+    "background": {
+        "service_worker": "scripts/background.js"
+    },
+    "icons": {
+        "48": "images/icon.png"
+    },
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "web_accessible_resources": [{
+        "resources": [
+            "data/en.json",
+            "templates/*",
+            "styles/*",
+            "fonts/*"
+        ],
+        "matches": ["<all_urls>"]
+    }],
+    "action": {
+        "default_icon": {
+            "48": "images/icon.png"
+        },
+        "default_popup": "pages/main.html"
+    }
+} 

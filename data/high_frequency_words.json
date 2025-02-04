@@ -1,0 +1,144 @@
+{
+  "words": [
+    {
+      "word": "and",
+      "frequency": 45,
+      "type": "common"
+    },
+    {
+      "word": "the",
+      "frequency": 38,
+      "type": "common"
+    },
+    {
+      "word": "a",
+      "frequency": 35,
+      "type": "common"
+    },
+    {
+      "word": "in",
+      "frequency": 25,
+      "type": "common"
+    },
+    {
+      "word": "to",
+      "frequency": 22,
+      "type": "common"
+    },
+    {
+      "word": "of",
+      "frequency": 20,
+      "type": "common"
+    },
+    {
+      "word": "was",
+      "frequency": 18,
+      "type": "common"
+    },
+    {
+      "word": "it",
+      "frequency": 16,
+      "type": "common"
+    },
+    {
+      "word": "is",
+      "frequency": 15,
+      "type": "common"
+    },
+    {
+      "word": "this",
+      "frequency": 15,
+      "type": "common"
+    },
+    {
+      "word": "that",
+      "frequency": 14,
+      "type": "common"
+    },
+    {
+      "word": "has",
+      "frequency": 13,
+      "type": "common"
+    },
+    {
+      "word": "for",
+      "frequency": 13,
+      "type": "common"
+    },
+    {
+      "word": "on",
+      "frequency": 12,
+      "type": "common"
+    },
+    {
+      "word": "china",
+      "frequency": 12,
+      "type": "content"
+    },
+    {
+      "word": "with",
+      "frequency": 11,
+      "type": "common"
+    },
+    {
+      "word": "by",
+      "frequency": 10,
+      "type": "common"
+    },
+    {
+      "word": "will",
+      "frequency": 10,
+      "type": "common"
+    },
+    {
+      "word": "as",
+      "frequency": 9,
+      "type": "common"
+    },
+    {
+      "word": "are",
+      "frequency": 9,
+      "type": "common"
+    },
+    {
+      "word": "at",
+      "frequency": 8,
+      "type": "common"
+    },
+    {
+      "word": "global",
+      "frequency": 8,
+      "type": "content"
+    },
+    {
+      "word": "have",
+      "frequency": 8,
+      "type": "common"
+    },
+    {
+      "word": "from",
+      "frequency": 7,
+      "type": "common"
+    },
+    {
+      "word": "india",
+      "frequency": 7,
+      "type": "content"
+    },
+    {
+      "word": "been",
+      "frequency": 7,
+      "type": "common"
+    },
+    {
+      "word": "they",
+      "frequency": 6,
+      "type": "common"
+    },
+    {
+      "word": "russia",
+      "frequency": 6,
+      "type": "content"
+    }
+  ]
+} 

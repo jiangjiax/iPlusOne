@@ -1,0 +1,153 @@
+.popup-sidebar {
+    width: 100%;
+    background: #FFFFFF;
+    position: relative;
+    height: auto;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.extension-sidebar {
+    width: 220px;
+    background: #F8F9FA;
+    position: fixed;
+    height: 100vh;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+    color: #1976D2;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 0 20px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.nav-menu {
+    display: flex;
+    padding: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-item {
+    flex: 1;
+    min-width: auto;
+    justify-content: center;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: rgba(0, 0, 0, 0.87);
+    text-decoration: none;
+    transition: all 0.2s;
+    height: 36px;
+    font-size: 14px;
+    position: relative;
+}
+
+.nav-item:hover {
+    background: rgba(25, 118, 210, 0.04);
+    color: #1976D2;
+}
+
+/* 媒体查询 - 桌面端 */
+@media (min-width: 768px) {
+    .extension-sidebar .nav-menu {
+        flex-direction: column;
+        padding: 16px 0;
+    }
+
+    .extension-sidebar .nav-item {
+        justify-content: flex-start;
+        height: 48px;
+        font-size: 16px;
+        padding: 8px 24px;
+        border-radius: 8px;
+        transition: background 0.2s;
+    }
+
+    .extension-sidebar .nav-item:hover {
+        background: rgba(25, 118, 210, 0.1);
+    }
+
+    .extension-sidebar .nav-item.active {
+        background: rgba(25, 118, 210, 0.2);
+        font-weight: bold;
+    }
+
+    .extension-sidebar .nav-icon {
+        font-size: 20px;
+        margin-right: 16px;
+    }
+
+    .extension-sidebar .logo {
+        font-size: 22px;
+        height: 64px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* 弹出窗口隐藏某些元素 */
+body.popup .popup-only {
+    display: inline-flex;
+}
+
+/* 扩展页面隐藏某些元素 */
+.popup-only {
+    display: none;
+}
+
+/* 扩展页面隐藏"开始阅读"项 */
+.extension-sidebar .extension-only {
+    display: none;
+}
+
+/* 弹出窗口中的导航菜单样式 */
+body.popup .nav-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* 两列布局 */
+    gap: 8px;  /* 项目之间的间距 */
+    padding: 12px;
+    overflow: visible;  /* 移除滚动条 */
+}
+
+body.popup .nav-item {
+    flex: none;  /* 移除 flex 布局 */
+    width: auto;
+    height: 44px;
+    font-size: 14px;
+    padding: 0 16px;
+    margin: 0;
+    border-radius: 8px;
+    background: #F8F9FA;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+body.popup .nav-item:hover {
+    background: #E3F2FD;
+    transform: translateY(-2px);
+}
+
+body.popup .nav-item.active {
+    background: rgba(25, 118, 210, 0.1);
+    border-color: #1976D2;
+}
+
+/* 图标和文字的布局 */
+body.popup .nav-icon {
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+body.popup .nav-text {
+    font-weight: 500;
+} 

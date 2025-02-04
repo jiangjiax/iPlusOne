@@ -1,0 +1,39 @@
+<div class="i-plus-one-tooltip" id="i-plus-one-tooltip">
+    <!-- 头部操作栏 -->
+    <div class="tooltip-header">
+        <div class="word-actions">
+            <button class="word-action-btn mastery-btn" title="切换掌握状态">
+                <span class="action-icon">✓</span>
+                <span class="btn-text">已掌握</span>
+            </button>
+            <button class="word-action-btn star-btn" title="添加到学习列表">
+                <svg class="star-icon" viewBox="0 0 24 24" width="16" height="16">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
+                <span class="btn-text">学习</span>
+            </button>
+        </div>
+        <div class="close-btn">×</div>
+    </div>
+    
+    <!-- 加载状态 -->
+    <div class="tooltip-loading">
+        <div class="loading-spinner"></div>
+        加载中...
+    </div>
+
+    <!-- 词义内容 -->
+    <div class="tooltip-content" style="display: none;">
+        <div class="tooltip-word"></div>
+        <div class="tooltip-phonetics"></div>
+        <div class="tooltip-meanings"></div>
+        <div class="tooltip-forms"></div>
+        <div class="tooltip-examples"></div>
+    </div>
+
+    <!-- 错误状态 -->
+    <div class="tooltip-error" style="display: none;">
+        <div class="tooltip-word"></div>
+        <div class="error-message">无法获取释义</div>
+    </div>
+</div> 

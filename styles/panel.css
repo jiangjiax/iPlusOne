@@ -1,0 +1,665 @@
+/* 主面板基础样式 */
+.english-i-plus-one-panel {
+    background: rgba(26, 43, 59, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 面板基础样式 */
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+}
+
+/* 添加玻璃态分割线效果 */
+.panel-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+}
+
+.panel-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.panel-controls {
+    display: flex;
+    gap: 12px;
+}
+
+/* 按钮样式 */
+.minimize-btn {
+    background: rgba(147, 197, 253, 0.1);
+    border: 1px solid rgba(147, 197, 253, 0.2);
+    color: #93C5FD;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.minimize-btn:hover {
+    opacity: 1;
+    background: rgba(147, 197, 253, 0.15);
+    transform: translateY(-1px);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: static;
+    top: 8px;
+    right: 8px;
+}
+
+.close-btn:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 主要统计信息 */
+.stats-main {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.percentage {
+    margin-bottom: 20px;
+}
+
+.percentage-value {
+    color: #60A5FA;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
+    background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.8));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.percentage-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.difficulty-badge {
+    display: inline-block;
+    color: inherit;
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* 根据难度设置颜色 */
+.difficulty-badge[data-difficulty="简单"] { 
+    color: #10B981; 
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.difficulty-badge[data-difficulty="适合 (i+1)"] { 
+    color: #60A5FA; 
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+}
+.difficulty-badge[data-difficulty="挑战"] { 
+    color: #FBBF24; 
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+}
+.difficulty-badge[data-difficulty="较难"] { 
+    color: #F59E0B; 
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+.difficulty-badge[data-difficulty="困难"] { 
+    color: #EF4444; 
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* 详细统计信息 */
+.stats-detail {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    text-align: center;
+    margin-top: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.stats-detail > div {
+    padding: 12px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.stats-detail > div:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+/* 添加标签和数值的样式 */
+.stats-detail > div > span:first-child {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stats-detail > div > span:last-child {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 最小化状态 */
+.minimized {
+    text-align: center;
+    min-width: 100px;
+    cursor: pointer;
+    padding: 16px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #1f3347, #162534);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.minimized:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* 波纹效果 */
+.minimized::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 30%,
+        transparent 60%
+    );
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.minimized:hover::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    animation: ripple 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+    }
+}
+
+/* 顶部光泽效果 */
+.minimized::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+}
+
+/* 根据难度设置不同的波纹颜色 */
+.minimized[data-difficulty="简单"]::after {
+    background: radial-gradient(
+        circle at center,
+        rgba(16, 185, 129, 0.3) 0%,
+        rgba(16, 185, 129, 0.15) 30%,
+        transparent 60%
+    );
+}
+
+.minimized[data-difficulty="适合 (i+1)"]::after {
+    background: radial-gradient(
+        circle at center,
+        rgba(96, 165, 250, 0.3) 0%,
+        rgba(96, 165, 250, 0.15) 30%,
+        transparent 60%
+    );
+}
+
+.minimized[data-difficulty="挑战"]::after {
+    background: radial-gradient(
+        circle at center,
+        rgba(251, 191, 36, 0.3) 0%,
+        rgba(251, 191, 36, 0.15) 30%,
+        transparent 60%
+    );
+}
+
+.minimized[data-difficulty="较难"]::after {
+    background: radial-gradient(
+        circle at center,
+        rgba(245, 158, 11, 0.3) 0%,
+        rgba(245, 158, 11, 0.15) 30%,
+        transparent 60%
+    );
+}
+
+.minimized[data-difficulty="困难"]::after {
+    background: radial-gradient(
+        circle at center,
+        rgba(239, 68, 68, 0.3) 0%,
+        rgba(239, 68, 68, 0.15) 30%,
+        transparent 60%
+    );
+}
+
+.minimized .percentage-value {
+    font-size: 24px;
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+}
+
+.minimized .difficulty-label {
+    font-size: 12px;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 添加不同难度的渐变背景 */
+.minimized[data-difficulty="简单"] {
+    background: linear-gradient(145deg, #0d9668, #0b7d57);
+}
+.minimized[data-difficulty="适合 (i+1)"] {
+    background: linear-gradient(145deg, #4d84cb, #3b689e);
+}
+.minimized[data-difficulty="挑战"] {
+    background: linear-gradient(145deg, #d4a41d, #b38918);
+}
+.minimized[data-difficulty="较难"] {
+    background: linear-gradient(145deg, #cc840a, #a66908);
+}
+.minimized[data-difficulty="困难"] {
+    background: linear-gradient(145deg, #c73838, #9e2d2d);
+}
+
+/* 单词标记样式 */
+.i-plus-one-text {
+    display: inline;
+    line-height: inherit;
+}
+
+/* 已掌握单词的样式 */
+.i-plus-one-known {
+    color: inherit;
+    cursor: pointer;
+    padding: 0 1px;
+    border-radius: 2px;
+    transition: background-color 0.2s ease;
+}
+
+.i-plus-one-known:hover {
+    background: rgba(96, 165, 250, 0.1);
+    cursor: help;
+}
+
+/* 未掌握单词的样式保持不变 */
+.i-plus-one-new {
+    color: inherit;
+    background: linear-gradient(transparent 60%, rgba(239, 68, 68, 0.2) 40%);
+    border-radius: 2px;
+    padding: 0 1px;
+}
+
+.i-plus-one-new:hover {
+    background: linear-gradient(transparent 60%, rgba(239, 68, 68, 0.3) 40%);
+    cursor: help;
+}
+
+/* 工具提示基础样式优化 */
+.i-plus-one-tooltip {
+    position: fixed;
+    z-index: 1000000;
+    background: #1A2B3B;
+    color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    font-size: 14px;
+    max-width: 360px;
+    min-width: 280px;
+    display: none;
+    animation: tooltip-fade-in 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+}
+
+@keyframes tooltip-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.tooltip-word {
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 0.5px;
+    margin-right: 16px;
+}
+
+.word-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* 按钮样式优化 */
+.word-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #9CA3AF;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.word-action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+/* 掌握按钮 */
+.mastery-btn {
+    min-width: 90px;
+}
+
+.mastery-btn .action-icon {
+    font-size: 16px;
+    color: #EF4444;  /* 默认是红色叉 */
+}
+
+.mastery-btn.active .action-icon {
+    color: #22C55E;  /* 激活状态是绿色勾 */
+}
+
+.mastery-btn.active {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #22C55E;
+}
+
+/* 未激活状态 */
+.mastery-btn:not(.active) {
+    background: rgba(239, 68, 68, 0.05);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: #EF4444;
+}
+
+.mastery-btn:not(.active):hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* 学习按钮 */
+.star-btn {
+    min-width: 80px;
+}
+
+.star-btn .star-icon {
+    fill: #9CA3AF;
+    transition: all 0.2s ease;
+}
+
+/* 默认状态 */
+.star-btn:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #9CA3AF;
+}
+
+/* 激活状态 */
+.star-btn.active {
+    background: rgba(234, 179, 8, 0.15);
+    border-color: rgba(234, 179, 8, 0.3);
+    color: #EAB308;
+}
+
+.star-btn.active .star-icon {
+    fill: #EAB308;
+    filter: drop-shadow(0 0 4px rgba(234, 179, 8, 0.4));
+}
+
+/* 其他内容样式优化 */
+.tooltip-phonetics {
+    margin: 16px 0;
+    display: flex;
+    gap: 20px;
+}
+
+.phonetic-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* 释义部分 */
+.tooltip-meanings {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 12px;
+    margin-bottom: 12px;
+}
+
+.tooltip-meaning {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    display: flex;
+    gap: 8px;
+}
+
+.part-of-speech {
+    color: #60A5FA;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 30px;
+}
+
+.meaning-content {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 例句部分 */
+.tooltip-examples {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.example-item {
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.example-en {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 4px;
+}
+
+.example-zh {
+    color: #9CA3AF;
+    font-size: 12px;
+}
+
+/* 词形变化 */
+.tooltip-forms {
+    font-size: 13px;
+    color: #9CA3AF;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 12px;
+}
+
+.form-label {
+    color: #60A5FA;
+    margin-right: 4px;
+    font-size: 12px;
+}
+
+/* 加载动画 */
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(96, 165, 250, 0.3);
+    border-top-color: #60A5FA;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.tooltip-loading {
+    text-align: center;
+    color: #9CA3AF;
+    padding: 20px 0;
+}
+
+/* 状态特定样式 */
+.known-btn.active {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #22C55E;
+}
+
+.learning-btn.active {
+    background: rgba(234, 179, 8, 0.1);
+    border-color: rgba(234, 179, 8, 0.3);
+    color: #EAB308;
+}
+
+.unknown-btn.active {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #EF4444;
+} 

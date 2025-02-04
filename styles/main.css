@@ -1,0 +1,331 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #F0F7FF;
+    color: rgba(0, 0, 0, 0.87);
+    min-width: auto;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 100%;
+    background: #FFFFFF;
+    position: relative;
+    height: auto;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.logo {
+    color: #1976D2;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 0 20px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.nav-menu {
+    display: flex;
+    padding: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-item {
+    flex: 1;
+    min-width: auto;
+    justify-content: center;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: rgba(0, 0, 0, 0.87);
+    text-decoration: none;
+    transition: all 0.2s;
+    height: 36px;
+    font-size: 14px;
+    position: relative;
+}
+
+.nav-item:hover {
+    background: rgba(25, 118, 210, 0.04);
+    color: #1976D2;
+}
+
+.nav-item.active {
+    background: rgba(25, 118, 210, 0.08);
+    color: #1976D2;
+    font-weight: 500;
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #1976D2;
+}
+
+.nav-icon {
+    margin-right: 12px;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.nav-item.active .nav-icon {
+    opacity: 1;
+}
+
+/* 主内容区域 */
+.main-content {
+    flex: 1;
+    padding: 16px;
+    margin-left: 0;
+}
+
+/* 欢迎区域 */
+.welcome-section {
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 500;
+    margin: 0 0 12px;
+    color: #1976D2;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0 0 24px;
+}
+
+.start-btn {
+    background: linear-gradient(45deg, #2196F3, #1E88E5);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    /* height: 68px; */
+    font-size: 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.start-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.start-btn:hover {
+    background: linear-gradient(45deg, #1E88E5, #1976D2);
+    /* transform: translateY(-2px); */
+    box-shadow: 0 6px 16px rgba(33, 150, 243, 0.4);
+}
+
+.start-btn:hover::before {
+    transform: translateX(100%);
+}
+
+.btn-icon {
+    font-size: 20px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-4px);
+    }
+    60% {
+        transform: translateY(-2px);
+    }
+}
+
+/* 统计面板 */
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: #FFFFFF;
+    border-radius: 8px;
+    margin-top: 16px;
+}
+
+.stats-item {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+}
+
+.stats-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.stats-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1976D2;
+}
+
+.stats-label {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.description {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 16px;
+    background: #F5F5F5;
+    border-radius: 4px;
+}
+
+/* 让按钮在页面加载时有个淡入效果 */
+.welcome-section .start-btn {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 媒体查询 - 桌面端 */
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 220px; /* 调整宽度 */
+        background: #F8F9FA; /* 更柔和的背景色 */
+        position: fixed;
+        height: 100vh;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        padding: 12px 0;
+    }
+
+    .nav-item {
+        justify-content: flex-start;
+        height: 44px; /* 调整高度 */
+        font-size: 15px; /* 调整字号 */
+        padding: 0 20px;
+        margin: 4px 12px; /* 调整外边距 */
+        border-radius: 6px; /* 调整圆角 */
+        transition: background 0.2s;
+    }
+
+    .nav-item:hover {
+        background: rgba(25, 118, 210, 0.1); /* 增加hover效果 */
+    }
+
+    .nav-icon {
+        font-size: 18px; /* 调整图标大小 */
+        margin-right: 12px;
+    }
+
+    /* Logo样式优化 */
+    .logo {
+        font-size: 20px;
+        height: 60px;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .main-content {
+        margin-left: 220px;
+        padding: 24px;
+    }
+}
+
+/* 添加平滑过渡 */
+.sidebar, .main-content, .nav-menu {
+    transition: all 0.3s ease;
+}
+
+/* 添加弹出窗口的特殊样式 */
+body.popup {
+    width: 400px;  /* 增加弹框宽度 */
+    min-width: 400px;
+    height: auto;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+/* 弹出窗口中的容器样式 */
+body.popup .container {
+    width: 100%;
+    height: 100%;
+}
+
+/* 弹出窗口中的侧边栏样式 */
+body.popup .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body.popup .nav-menu {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 弹出窗口隐藏某些元素 */
+body.popup .popup-only {
+    display: inline-flex;
+}
+
+/* 扩展页面隐藏某些元素 */
+.popup-only {
+    display: none;
+}

@@ -1,0 +1,41 @@
+<div class="panel-header">
+    <span class="panel-title">内容分析</span>
+    <div class="panel-controls">
+        <button id="minimizeBtn" class="minimize-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+            最小化
+        </button>
+        <button id="closeBtn" class="close-btn">×</button>
+    </div>
+</div>
+
+<div class="stats-main">
+    <div class="percentage expanded-view">
+        <div class="percentage-value">{{knownPercentage}}%</div>
+        <div class="percentage-label">已掌握单词比例</div>
+    </div>
+    <div class="percentage empty-view" style="display: none;">
+        <div class="percentage-value">无英文内容</div>
+        <div class="percentage-label">当前页面没有检测到英文正文</div>
+    </div>
+    <div class="difficulty-badge" data-difficulty="{{difficulty}}">
+        难度: {{difficulty}}
+    </div>
+</div>
+
+<div class="stats-detail">
+    <div>
+        <span>总单词</span>
+        <span class="total-words">0</span>
+    </div>
+    <div>
+        <span>已掌握</span>
+        <span class="known-words">0</span>
+    </div>
+    <div>
+        <span>生词</span>
+        <span class="new-words">0</span>
+    </div>
+</div>
