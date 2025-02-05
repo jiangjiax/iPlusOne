@@ -12,6 +12,7 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
             this.tooltipTemplate = null;
             this.appKey = 'your_app_key';
             this.appSecret = 'your_app_secret';
+            this.initNavigationListener();
         }
 
         // 初始化，获取已知词汇
@@ -83,7 +84,15 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
         }
 
         // 遍历所有文本节点，直接处理每个文本节点
-        processPage() {
+        async processPage() {
+            // 等待页面完全加载
+            await this.waitForPageLoad();
+
+            // 重置统计
+            this.pageWords = new Set();
+            this.newWords = new Set();
+            this.wordFrequency = new Map();
+
             // 获取所有文本节点
             const textNodes = this.getAllTextNodes(document.body);
             
@@ -97,6 +106,16 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
 
             // 返回统计数据
             return this.generateStats();
+        }
+
+        waitForPageLoad() {
+            return new Promise((resolve) => {
+                if (document.readyState === 'complete') {
+                    resolve();
+                } else {
+                    window.addEventListener('load', () => resolve());
+                }
+            });
         }
 
         // 获取所有文本节点
@@ -121,7 +140,7 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
                         // 跳过这些标签
                         const skipTags = [
                             'SCRIPT', 'STYLE', 'CODE', 'PRE', 'TEXTAREA',  // 代码相关
-                            'A', 'BUTTON', 'INPUT', 'SELECT',              // 交互元素
+                            'BUTTON', 'INPUT', 'SELECT',              // 交互元素，移除了 'A'
                             'NAV', 'HEADER', 'FOOTER',                     // 导航和页眉页脚
                             'TIME', 'META', 'IMG', 'SVG',                 // 媒体和元数据
                             'IFRAME', 'CANVAS', 'VIDEO', 'AUDIO',          // 嵌入内容
@@ -143,6 +162,8 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
                             return NodeFilter.FILTER_REJECT;
                         }
 
+                        console.log("node:", node.textContent.trim());
+
                         return NodeFilter.FILTER_ACCEPT;
                     }
                 }
@@ -150,6 +171,10 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
 
             let node;
             while (node = walker.nextNode()) {
+                // node文本内容只有空格和换行的话，跳过
+                if (node.textContent.trim().length == 0) {
+                    continue
+                }
                 textNodes.push(node);
             }
             return textNodes;
@@ -175,7 +200,6 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
 
         // 处理单个文本节点
         processTextNode(node, text) {
-            // 更新正则表达式以匹配包含连字符、点号的复合词和缩写
             const wordPattern = /(\b[a-zA-Z]+(?:[-'.][a-zA-Z]+)*\b|\s+|[^a-zA-Z\s]+)/g;
             const parts = text.split(wordPattern);
             
@@ -186,12 +210,14 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
             parts.forEach(part => {
                 if (!part) return;
                 
-                // 更新单词匹配规则，包含连字符和点号的情况
                 const word = part.toLowerCase();
                 if (/^[a-zA-Z]+(?:[-'.][a-zA-Z]+)*$/.test(word)) {
-                    // 是英文单词（包括带连字符的复合词和带点的缩写）
                     const span = document.createElement('span');
                     span.textContent = part;
+                    
+                    // 更新统计
+                    this.pageWords.add(word);
+                    this.wordFrequency.set(word, (this.wordFrequency.get(word) || 0) + 1);
                     
                     if (this.knownWords[word]) {
                         span.className = 'i-plus-one-known';
@@ -200,11 +226,29 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
                         this.newWords.add(word);
                     }
                     
-                    span.addEventListener('click', (e) => this.showWordTooltip(e, word));
-                    wrapper.appendChild(span);
+                    // 添加悬停和点击事件
+                    let hoverTimeout;
+                    span.addEventListener('mouseenter', (e) => {
+                        hoverTimeout = setTimeout(() => {
+                            this.showWordTooltip(e, word, false);
+                        }, 300); // 添加300ms延迟，避免鼠标快速划过时显示
+                    });
                     
-                    this.wordFrequency.set(word, (this.wordFrequency.get(word) || 0) + 1);
-                    this.pageWords.add(word);
+                    span.addEventListener('mouseleave', (e) => {
+                        clearTimeout(hoverTimeout);
+                        const tooltip = document.getElementById('i-plus-one-tooltip');
+                        if (tooltip && !tooltip.classList.contains('pinned')) {
+                            this.hideWordTooltip();
+                        }
+                    });
+                    
+                    span.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        clearTimeout(hoverTimeout);
+                        this.showWordTooltip(e, word, true); // true表示固定显示
+                    });
+                    
+                    wrapper.appendChild(span);
                 } else {
                     wrapper.appendChild(document.createTextNode(part));
                 }
@@ -212,6 +256,19 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
             
             node.parentNode.replaceChild(wrapper, node);
             node._processed = true;
+        }
+
+        // 添加 hideWordTooltip 方法
+        hideWordTooltip() {
+            const tooltip = document.getElementById('i-plus-one-tooltip');
+            if (tooltip) {
+                // 移除document的点击事件监听
+                if (this.handleDocumentClick) {
+                    document.removeEventListener('click', this.handleDocumentClick);
+                    this.handleDocumentClick = null;
+                }
+                tooltip.remove();
+            }
         }
 
         // 生成签名
@@ -304,7 +361,7 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
         }
 
         // 添加显示词义工具提示的方法
-        async showWordTooltip(event, word) {
+        async showWordTooltip(event, word, isPinned = false) {
             event.stopPropagation();
             
             // 移除可能存在的其他提示框
@@ -317,13 +374,37 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = this.tooltipTemplate;
             const tooltip = tempDiv.firstElementChild;
-            document.body.appendChild(tooltip);
+            
+            if (isPinned) {
+                tooltip.classList.add('pinned');
+            }
 
             // 添加关闭按钮事件
-            tooltip.querySelector('.close-btn').addEventListener('click', () => {
-                tooltip.remove();
-                document.removeEventListener('click', this.handleDocumentClick);
+            const closeBtn = tooltip.querySelector('.close-btn');
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.hideWordTooltip();
             });
+
+            // 添加tooltip的鼠标进入和离开事件
+            tooltip.addEventListener('mouseenter', () => {
+                clearTimeout(this.tooltipHideTimeout);
+            });
+
+            tooltip.addEventListener('mouseleave', (e) => {
+                if (!tooltip.classList.contains('pinned')) {
+                    this.hideWordTooltip();
+                }
+            });
+
+            // 添加点击其他区域关闭事件（仅当固定显示时）
+            if (isPinned) {
+                document.addEventListener('click', this.handleDocumentClick = (e) => {
+                    if (!tooltip.contains(e.target) && e.target.textContent.toLowerCase() !== word) {
+                        this.hideWordTooltip();
+                    }
+                });
+            }
 
             // 定位工具提示
             const rect = event.target.getBoundingClientRect();
@@ -461,8 +542,8 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
                 errorDiv.querySelector('.tooltip-word').textContent = word;
             }
 
-            // 添加点击事件监听器来关闭提示框
-            document.addEventListener('click', this.handleDocumentClick);
+            document.body.appendChild(tooltip);
+            this.positionTooltip(tooltip, event);
         }
 
         // 添加文档点击处理方法
@@ -476,43 +557,20 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
 
         // 生成统计数据
         generateStats() {
-            // 检查是否有单词
-            if (this.pageWords.size === 0) {
-                return {
-                    totalWords: 0,
-                    knownWords: 0,
-                    newWords: 0,
-                    knownPercentage: 0.0,  // 使用破折号代替百分比
-                    hasNewWords: false,
-                    newWordsList: [],
-                    wordFrequency: {},
-                    difficulty: '无英文内容',  // 自定义难度描述
-                    isEmpty: true  // 添加标记表示页面无内容
-                };
-            }
+            const totalWords = this.pageWords.size;
+            const knownWords = Array.from(this.pageWords).filter(word => this.knownWords[word]).length;
+            const newWords = this.newWords.size;
+            const knownPercentage = totalWords > 0 ? Math.round((knownWords / totalWords) * 100) : 0;
+            const difficulty = this.evaluateDifficulty(knownPercentage);
 
-            const stats = {
-                totalWords: this.pageWords.size,
-                knownWords: this.pageWords.size - this.newWords.size,
-                newWords: this.newWords.size,
-                knownPercentage: ((this.pageWords.size - this.newWords.size) / this.pageWords.size * 100).toFixed(1),
-                hasNewWords: this.newWords.size > 0,
-                newWordsList: Array.from(this.newWords)
-                    .sort((a, b) => (this.wordFrequency.get(b) || 0) - (this.wordFrequency.get(a) || 0))
-                    .map(word => ({
-                        word: word,
-                        frequency: this.wordFrequency.get(word)
-                    })),
-                wordFrequency: Object.fromEntries(this.wordFrequency),
-                isEmpty: false
+            return {
+                totalWords,
+                knownWords,
+                newWords,
+                knownPercentage,
+                difficulty,
+                isEmpty: totalWords === 0
             };
-
-            if (this.pageWords.size == 0) {
-                stats.difficulty = '无英文内容';
-            } else {
-                stats.difficulty = this.evaluateDifficulty(stats.knownPercentage);
-            }
-            return stats;
         }
 
         // 评估难度
@@ -525,10 +583,55 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
         }
 
         // 显示分析结果
-        showResults(stats) {
-            // 创建主面板
+        async showResults(statsPromise) {
+            // 先显示加载状态
+            const loadingPanel = this.createLoadingPanel();
+            document.body.appendChild(loadingPanel);
+
+            try {
+                // 等待统计数据
+                const stats = await statsPromise;
+                console.log('Resolved stats:', stats);
+
+                // 创建实际结果面板，但先隐藏
+                const panel = document.createElement('div');
+                panel.className = 'english-i-plus-one-panel';
+                Object.assign(panel.style, {
+                    position: 'fixed',
+                    top: '20px',
+                    right: '20px',
+                    background: '#1A2B3B',
+                    color: '#fff',
+                    padding: '20px',
+                    borderRadius: '12px',
+                    width: '300px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                    zIndex: 999999,
+                    fontSize: '14px',
+                    transition: 'all 0.3s ease',
+                    display: 'none'
+                });
+
+                // 初始化面板内容
+                this.renderExpandedView(panel, stats);
+                document.body.appendChild(panel);
+
+                // 移除加载面板
+                loadingPanel.remove();
+                
+                // 显示实际结果面板
+                panel.style.display = 'block';
+                this.updatePanelContent(panel, stats);
+                this.makeDraggable(panel);
+            } catch (error) {
+                console.error('Error showing results:', error);
+                loadingPanel.remove();
+                alert('分析页面时出错，请重试。');
+            }
+        }
+
+        createLoadingPanel() {
             const panel = document.createElement('div');
-            panel.className = 'english-i-plus-one-panel';  // 添加类名以便识别
             Object.assign(panel.style, {
                 position: 'fixed',
                 top: '20px',
@@ -541,16 +644,42 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
                 boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
                 zIndex: 999999,
                 fontSize: '14px',
-                transition: 'all 0.3s ease'
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
             });
 
-            // 添加拖动功能
-            this.makeDraggable(panel);
+            panel.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">正在等待页面加载...</div>
+                </div>
+            `;
 
-            // 渲染展开状态的内容
-            this.renderExpandedView(panel, stats);
+            // 添加加载动画样式
+            const style = document.createElement('style');
+            style.textContent = `
+                .loading-spinner {
+                    border: 3px solid rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    border-top: 3px solid #fff;
+                    width: 24px;
+                    height: 24px;
+                    animation: spin 1s linear infinite;
+                    margin-bottom: 8px;
+                }
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                .loading-text {
+                    font-size: 14px;
+                    color: rgba(255, 255, 255, 0.8);
+                }
+            `;
+            document.head.appendChild(style);
 
-            document.body.appendChild(panel);
+            return panel;
         }
 
         // 渲染展开状态
@@ -575,6 +704,12 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
 
         // 更新面板内容
         updatePanelContent(panel, stats) {
+            // 确保 stats 存在
+            if (!stats) {
+                console.error('Stats is undefined');
+                return;
+            }
+
             // 处理空内容状态
             const expandedView = panel.querySelector('.expanded-view');
             const emptyView = panel.querySelector('.empty-view');
@@ -584,18 +719,36 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
             } else {
                 expandedView.style.display = 'block';
                 emptyView.style.display = 'none';
-                panel.querySelector('.percentage-value').textContent = `${stats.knownPercentage}%`;
+                
+                // 更新百分比
+                const percentageValue = panel.querySelector('.percentage-value');
+                if (percentageValue) {
+                    percentageValue.textContent = `${stats.knownPercentage || 0}%`;
+                }
+
+                // 更新统计数据
+                const totalWords = panel.querySelector('.total-words');
+                if (totalWords) {
+                    totalWords.textContent = stats.totalWords || 0;
+                }
+
+                const knownWords = panel.querySelector('.known-words');
+                if (knownWords) {
+                    knownWords.textContent = stats.knownWords || 0;
+                }
+
+                const newWords = panel.querySelector('.new-words');
+                if (newWords) {
+                    newWords.textContent = stats.newWords || 0;
+                }
+
+                // 更新难度标签
+                const badge = panel.querySelector('.difficulty-badge');
+                if (badge) {
+                    badge.dataset.difficulty = stats.difficulty || '未知';
+                    badge.textContent = `难度: ${stats.difficulty || '未知'}`;
+                }
             }
-
-            // 更新统计数据
-            panel.querySelector('.total-words').textContent = stats.totalWords;
-            panel.querySelector('.known-words').textContent = stats.knownWords;
-            panel.querySelector('.new-words').textContent = stats.newWords;
-
-            // 更新难度标签
-            const badge = panel.querySelector('.difficulty-badge');
-            badge.dataset.difficulty = stats.difficulty;
-            badge.textContent = `难度: ${stats.difficulty}`;
         }
 
         // 添加拖动功能
@@ -836,9 +989,15 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
         // 判断节点是否是正文内容
         isContentNode(element) {
             // 检查标签
-            const contentTags = ['P', 'ARTICLE', 'SECTION', 'DIV', 'MAIN', 'SPAN', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI'];
+            const contentTags = ['P', 'ARTICLE', 'SECTION', 'DIV', 'MAIN', 'SPAN', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI', 'A'];
             if (!contentTags.includes(element.tagName)) {
                 return false;
+            }
+
+            // 链接标签特殊处理
+            if (element.tagName === 'A') {
+                // 链接文本只要包含英文单词就处理
+                return /[a-zA-Z]{2,}/.test(element.textContent);
             }
 
             // 标题标签特殊处理
@@ -862,7 +1021,7 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
 
             // 检查文本密度（文本长度与HTML长度的比率）
             const textDensity = text.length / element.innerHTML.length;
-            if (textDensity < 0.5) {  // 可以调整这个阈值
+            if (textDensity < 0.1) {  // 可以调整这个阈值
                 return false;
             }
 
@@ -929,6 +1088,119 @@ if (!window.ContentAnalyzer) {  // 只在首次加载时定义类
                     }
                 }
             });
+        }
+
+        // 添加 playPronunciation 方法
+        playPronunciation(word) {
+            const audio = new Audio(`https://dict.youdao.com/dictvoice?audio=${word}`);
+            audio.play();
+        }
+
+        // 添加 toggleFavorite 方法
+        async toggleFavorite(word) {
+            const result = await chrome.storage.local.get(['favoriteWords']);
+            const favoriteWords = result.favoriteWords || new Set();
+            
+            if (favoriteWords.has(word)) {
+                favoriteWords.delete(word);
+            } else {
+                favoriteWords.add(word);
+            }
+            
+            await chrome.storage.local.set({ favoriteWords });
+        }
+
+        // 添加 setDifficulty 方法
+        async setDifficulty(word, difficulty) {
+            const result = await chrome.storage.local.get(['wordDifficulties']);
+            const wordDifficulties = result.wordDifficulties || {};
+            
+            wordDifficulties[word] = difficulty;
+            await chrome.storage.local.set({ wordDifficulties });
+        }
+
+        // 添加 positionTooltip 方法
+        positionTooltip(tooltip, event) {
+            const margin = 10; // 与鼠标的距离
+            const screenPadding = 20; // 与屏幕边缘的最小距离
+
+            // 获取屏幕尺寸
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // 获取工具提示框的尺寸
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const tooltipWidth = tooltipRect.width;
+            const tooltipHeight = tooltipRect.height;
+
+            // 计算位置
+            let left = event.clientX + margin;
+            let top = event.clientY + margin;
+
+            // 确保不超出右边界
+            if (left + tooltipWidth > screenWidth - screenPadding) {
+                left = event.clientX - tooltipWidth - margin;
+            }
+
+            // 确保不超出下边界
+            if (top + tooltipHeight > screenHeight - screenPadding) {
+                top = event.clientY - tooltipHeight - margin;
+            }
+
+            // 确保不超出左边界
+            if (left < screenPadding) {
+                left = screenPadding;
+            }
+
+            // 确保不超出上边界
+            if (top < screenPadding) {
+                top = screenPadding;
+            }
+
+            // 应用位置
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+        }
+
+        // 初始化页面导航监听
+        initNavigationListener() {
+            // 监听 beforeunload 事件
+            window.addEventListener('beforeunload', () => {
+                this.removePanel();
+            });
+
+            // 监听单页应用的路由变化
+            if (window.history && window.history.pushState) {
+                const originalPushState = history.pushState;
+                const originalReplaceState = history.replaceState;
+
+                history.pushState = function() {
+                    originalPushState.apply(this, arguments);
+                    window.dispatchEvent(new Event('locationchange'));
+                };
+
+                history.replaceState = function() {
+                    originalReplaceState.apply(this, arguments);
+                    window.dispatchEvent(new Event('locationchange'));
+                };
+
+                window.addEventListener('popstate', () => {
+                    window.dispatchEvent(new Event('locationchange'));
+                });
+
+                window.addEventListener('locationchange', () => {
+                    this.removePanel();
+                });
+            }
+        }
+
+        // 移除面板的方法
+        removePanel() {
+            const panel = document.querySelector('.english-i-plus-one-panel');
+            if (panel) {
+                this.clearHighlights();
+                panel.remove();
+            }
         }
     }
 }

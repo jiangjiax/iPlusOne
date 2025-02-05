@@ -68,29 +68,22 @@
 }
 
 .close-btn {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    font-size: 18px;
-    padding: 4px;
-    opacity: 0.8;
-    transition: all 0.2s ease;
     width: 24px;
     height: 24px;
-    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: static;
-    top: 8px;
-    right: 8px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .close-btn:hover {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 /* 主要统计信息 */
@@ -115,9 +108,10 @@
     font-weight: bold;
     margin-bottom: 8px;
     text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
-    background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.8));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: initial;
+    line-height: 1.2;
+    display: inline-block;
+    min-height: 40px;
 }
 
 .percentage-label {
@@ -218,9 +212,9 @@
 /* 最小化状态 */
 .minimized {
     text-align: center;
-    min-width: 100px;
+    min-width: 80px;
     cursor: pointer;
-    padding: 16px;
+    padding: 6px;
     border-radius: 12px;
     background: linear-gradient(145deg, #1f3347, #162534);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -338,13 +332,10 @@
 }
 
 .minimized .percentage-value {
-    font-size: 24px;
+    font-size: 28px;
     margin-bottom: 4px;
     font-weight: 600;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     position: relative;
 }
 
@@ -380,31 +371,19 @@
     line-height: inherit;
 }
 
-/* 已掌握单词的样式 */
-.i-plus-one-known {
-    color: inherit;
-    cursor: pointer;
-    padding: 0 1px;
-    border-radius: 2px;
-    transition: background-color 0.2s ease;
-}
-
-.i-plus-one-known:hover {
-    background: rgba(96, 165, 250, 0.1);
-    cursor: help;
-}
-
-/* 未掌握单词的样式保持不变 */
+/* 未掌握单词的样式 */
 .i-plus-one-new {
-    color: inherit;
-    background: linear-gradient(transparent 60%, rgba(239, 68, 68, 0.2) 40%);
-    border-radius: 2px;
-    padding: 0 1px;
+    color: var(--color-new);
+    text-decoration: underline;
+    text-decoration-color: rgba(248, 113, 113, 0.3);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+    transition: all 0.2s ease;
 }
 
 .i-plus-one-new:hover {
-    background: linear-gradient(transparent 60%, rgba(239, 68, 68, 0.3) 40%);
-    cursor: help;
+    color: var(--color-new-hover);
+    text-decoration-color: rgba(248, 113, 113, 0.5);
 }
 
 /* 工具提示基础样式优化 */
@@ -662,4 +641,46 @@
     background: rgba(239, 68, 68, 0.1);
     border-color: rgba(239, 68, 68, 0.3);
     color: #EF4444;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.loading-spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid #fff;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* 添加固定状态的样式 */
+.i-plus-one-tooltip.pinned {
+    /* 可以添加一些视觉提示，表明tooltip被固定 */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+:root {
+    --color-new: #F87171;
+    --color-new-hover: #FCA5A5;
+    --color-known: #4ADE80;
+    --color-learning: #FBBF24;
 } 

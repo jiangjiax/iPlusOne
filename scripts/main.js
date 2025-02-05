@@ -11,16 +11,14 @@ class Main {
 
         startBtn.addEventListener('click', async () => {
             try {
-                // 获取当前标签页
                 const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
                 
-                // 检查是否是受限制的页面
                 if (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
                     alert('此页面不支持内容分析。\n请在正常的网页上使用此功能。');
                     return;
                 }
 
-                // 执行分析
+                // 使用与右键菜单相同的代码
                 await chrome.scripting.executeScript({
                     target: { tabId: tab.id },
                     files: ['scripts/content.js'],
@@ -29,14 +27,12 @@ class Main {
                 await chrome.scripting.executeScript({
                     target: { tabId: tab.id },
                     function: async () => {
-                        // 如果实例不存在，创建新实例
                         if (!window.contentAnalyzer) {
                             window.contentAnalyzer = new window.ContentAnalyzer();
                         }
                         const analyzer = window.contentAnalyzer;
                         await analyzer.initialize();
                         
-                        // 如果面板已存在，先移除它（这会同时清除标记）
                         const existingPanel = document.querySelector('.english-i-plus-one-panel');
                         if (existingPanel) {
                             analyzer.clearHighlights();
@@ -48,7 +44,6 @@ class Main {
                     }
                 });
                 
-                // 关闭弹窗
                 window.close();
             } catch (error) {
                 console.error('Error:', error);
@@ -245,5 +240,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.close();
             }
         });
+    });
+});
+
+// 在扩展弹出窗口关闭时移除面板
+window.addEventListener('unload', () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]) {
+            chrome.scripting.executeScript({
+                target: { tabId: tabs[0].id },
+                function: () => {
+                    if (window.contentAnalyzer) {
+                        window.contentAnalyzer.removePanel();
+                    }
+                }
+            });
+        }
     });
 }); 
