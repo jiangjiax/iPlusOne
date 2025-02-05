@@ -210,3 +210,35 @@
         margin-bottom: 0;
     }
 }
+
+/* 在文件末尾添加Q&A部分的样式 */
+.qa-section {
+    margin: 40px 0;
+}
+
+.qa-item {
+    margin-bottom: 32px;
+    padding: 20px;
+    background: #F8F9FA;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.qa-item h3 {
+    color: #1976D2;
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.qa-item p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+@media (min-width: 768px) {
+    .qa-item {
+        padding: 24px;
+    }
+}

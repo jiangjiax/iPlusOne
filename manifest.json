@@ -12,17 +12,23 @@
     "permissions": [
         "activeTab",
         "scripting",
-        "storage"
+        "storage",
+        "contextMenus",
+        "tabs"
+    ],
+    "optional_permissions": [
+        "webNavigation"
     ],
     "host_permissions": [
-        "<all_urls>"
+        "https://dict.youdao.com/*"
     ],
     "web_accessible_resources": [{
         "resources": [
             "data/en.json",
             "templates/*",
             "styles/*",
-            "fonts/*"
+            "fonts/*",
+            "pages/*"
         ],
         "matches": ["<all_urls>"]
     }],
